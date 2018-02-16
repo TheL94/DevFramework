@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AI", "AI", "{F0E4541E-750B-4F28-9A64-416B98E55C49}"
+	ProjectSection(SolutionItems) = preProject
+		AI\AI_Action.cs = AI\AI_Action.cs
+		AI\AI_ActionStructureForState.cs = AI\AI_ActionStructureForState.cs
+		AI\AI_Controller.cs = AI\AI_Controller.cs
+		AI\AI_DataManager.cs = AI\AI_DataManager.cs
+		AI\AI_State.cs = AI\AI_State.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pathfinding", "Pathfinding", "{B474CBC6-86C3-4A53-A212-C6071CE95EFE}"
+	ProjectSection(SolutionItems) = preProject
+		Pathfinding\BezierPath.cs = Pathfinding\BezierPath.cs
+		Pathfinding\INetworkable.cs = Pathfinding\INetworkable.cs
+		Pathfinding\IPathfinder.cs = Pathfinding\IPathfinder.cs
+		Pathfinding\Path.cs = Pathfinding\Path.cs
+		Pathfinding\Pathfinder.cs = Pathfinding\Pathfinder.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pool", "Pool", "{5AEC6676-DE87-4C40-9350-C66200B23D30}"
+	ProjectSection(SolutionItems) = preProject
+		PoolSystem\GameObjectPool.cs = PoolSystem\GameObjectPool.cs
+		PoolSystem\ObjectPool.cs = PoolSystem\ObjectPool.cs
+		PoolSystem\PoolAbstract.cs = PoolSystem\PoolAbstract.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Probability", "Probability", "{972A2A77-080C-421E-889D-FB025AD58F41}"
+	ProjectSection(SolutionItems) = preProject
+		Probability\ProbabilityGroup.cs = Probability\ProbabilityGroup.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1E9EF15-0B89-46BB-A6B6-7FD85EB0A3A2}
+	EndGlobalSection
+EndGlobal
