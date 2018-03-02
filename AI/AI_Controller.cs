@@ -56,7 +56,7 @@ namespace Framework.AI
                 
                 //Prevent incorrect state changes
                 if (newState == null)
-                    if(oldState.name == newState.name)
+                    if(oldState.name == newState.name) // TODO : questo if è inutile visto che new state è sempre nulla in questo punto
                         return oldState;
             }
 
