@@ -75,7 +75,7 @@ namespace Framework.AI
                 AI_State stateInstance = null;
                 foreach (AI_State instance in stateInstances)
                 {
-                    if (instance.name.StartsWith(_state.name))
+                    if (instance.name.StartsWith(_state.name)) //TODO : correggere bug
                         stateInstance = instance;
                 }
 
