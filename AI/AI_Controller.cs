@@ -55,15 +55,13 @@ namespace Framework.AI
                 oldState.Clean(); //Clean the old State as soon as the state change in order to prevent multiple State changes called by events
                 
                 //Prevent incorrect state changes
-                if (newState == null)
-                    if(oldState.name == newState.name) // TODO : questo if è inutile visto che new state è sempre nulla in questo punto
-                        return oldState;
+                if (newState == null || oldState.name == newState.name)
+                    return oldState;
             }
 
 
             AI_State newStateInstance = AI_DataManager.GetState(this, newState);
             newStateInstance.Init();
-            //Debug.Log(newStateInstance.name + " instance: " + newStateInstance.GetInstanceID());
 
             return newStateInstance;
         }
