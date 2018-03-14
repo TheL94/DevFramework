@@ -9,10 +9,13 @@ namespace UnityFramework.Pool
         public List<PoolType> inactivePool = new List<PoolType>();
         public List<PoolType> activePool = new List<PoolType>();
 
-        protected GameObject prefabReference;
-        protected Transform parentObject;
+        protected PoolType objectToPool;
 
         #region API
+        /// <summary>
+        /// Ritorna il primo oggetto della lista degli inattivi, se non ne ha, ne crea uno
+        /// </summary>
+        /// <returns></returns>
         public virtual PoolType Get()
         {
             UpdatePools();
@@ -23,12 +26,15 @@ namespace UnityFramework.Pool
             }
             else
             {
-                PoolType item = InstantiateInstance();
+                PoolType item = InstantiatePoolObject();
                 activePool.Add(item);
                 return item;
             }
         }
 
+        /// <summary>
+        /// Controlla se c'è qualche oggetto inattivo nella lista di quelli attivi, e lo riassegna alla lista giusta
+        /// </summary>
         public virtual void UpdatePools()
         {
             for (int i = 0; i < activePool.Count; i++)
@@ -38,11 +44,14 @@ namespace UnityFramework.Pool
                 {
                     activePool.Remove(item);
                     inactivePool.Add(item);
-                    ResetPool(item);
+                    ResetPoolObject(item);
                 }
             }
         }
 
+        /// <summary>
+        /// Riassegna tutti gli elementi della lista degli attivi alla lista degli inattivi
+        /// </summary>
         public void ForcePoolsReset()
         {
             for (int i = 0; i < activePool.Count; i++)
@@ -51,28 +60,32 @@ namespace UnityFramework.Pool
                 ChangeObjectState(item, false);
                 activePool.Remove(item);
                 inactivePool.Add(item);
-                ResetPool(item);
+                ResetPoolObject(item);
             }
         }
         #endregion
 
-        protected void InitializeObjectPool(GameObject _prefabReference, Vector3 _containerPosition, Transform _containerParent, int _initialQuantity)
+        /// <summary>
+        /// Inizializza il pool con il tipo passato come parametro e la quantità
+        /// </summary>
+        /// <param name="_objectToPool">Il tipo che deve instanziare</param>
+        /// <param name="_initialQuantity">La quantità iniziale di oggetti</param>
+        protected void InitializeObjectPool(PoolType _objectToPool, int _initialQuantity)
         {
-            GameObject obj = new GameObject();
-            obj.transform.parent = _containerParent;
-            obj.transform.position = _containerPosition;
-            parentObject = obj.transform;
-            parentObject.name = "Parent: " + _prefabReference.name;
+            objectToPool = _objectToPool;
 
-            prefabReference = _prefabReference;
             for (int i = 0; i < _initialQuantity; i++)
             {
-                PoolType item = InstantiateInstance();
+                PoolType item = InstantiatePoolObject();
                 inactivePool.Add(item);
                 ChangeObjectState(item, false);
             }
         }
 
+        /// <summary>
+        /// Restituisce il primo oggetto dalla lista di inattivi
+        /// </summary>
+        /// <returns></returns>
         protected PoolType GetInactiveObject()
         {
             PoolType item = inactivePool[0];
@@ -82,18 +95,33 @@ namespace UnityFramework.Pool
             return item;
         }
 
-        PoolType InstantiateInstance()
-        {
-            GameObject instantiatedObject = GameObject.Instantiate(prefabReference);
-            instantiatedObject.transform.parent = parentObject;
-            PoolType typeInstance = GetPoolType(instantiatedObject);
-            return typeInstance;
-        }
+        /// <summary>
+        /// Resetta i valori di default dell'oggetto che viene ripreso dal Pool
+        /// </summary>
+        /// <param name="_item">Oggetto da resettare</param>
+        protected virtual void ResetPoolObject(PoolType _item) { }
+        /// <summary>
+        /// Ritorna l'oggetto base del Pool
+        /// </summary>
+        /// <returns></returns>
+        protected virtual PoolType GetPoolType() { return objectToPool; }
 
-        protected virtual void ResetPool(PoolType _item) { }
-
+        /// <summary>
+        /// Instanzia l'oggetto
+        /// </summary>
+        /// <returns></returns>
+        protected abstract PoolType InstantiatePoolObject();
+        /// <summary>
+        /// Cambia lo stato dell'oggetto passato come parametro
+        /// </summary>
+        /// <param name="item">L'oggetto a cui viene cambiato stato</param>
+        /// <param name="toState">Lo stato che viene settato all'oggetto</param>
         protected abstract void ChangeObjectState(PoolType item, bool toState);
+        /// <summary>
+        /// Ritorna lo stato dell'oggetto
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         protected abstract bool IsObjectActive(PoolType item);
-        protected abstract PoolType GetPoolType(GameObject gameObject);
     }
 }

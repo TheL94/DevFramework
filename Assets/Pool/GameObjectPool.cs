@@ -5,22 +5,15 @@ namespace UnityFramework.Pool
 {
     public class GameObjectPool : Pool<GameObject>
     {
-        public GameObjectPool(GameObject _prefabReference, Vector3 _containerObj, Transform _containerParent)
+        Transform parentObject;
+
+        public GameObjectPool(GameObject _prefabReference, Transform _parent, int _initialQuantity)
         {
-            InitializeObjectPool(_prefabReference, _containerObj, _containerParent, 0);
+            parentObject = _parent;
+            InitializeObjectPool(_prefabReference, _initialQuantity);
         }
 
-        public GameObjectPool(GameObject _prefabReference, Vector3 _containerObj, Transform _containerParent, int _initialQuantity)
-        {
-            InitializeObjectPool(_prefabReference, _containerObj, _containerParent, _initialQuantity);
-        }
-
-        protected override GameObject GetPoolType(GameObject gameObject)
-        {
-            return gameObject;
-        }
-
-        protected override void ResetPool(GameObject _item)
+        protected override void ResetPoolObject(GameObject _item)
         {
             _item.transform.position = parentObject.transform.position;
             _item.transform.parent = parentObject.transform;
@@ -34,6 +27,11 @@ namespace UnityFramework.Pool
         protected override bool IsObjectActive(GameObject item)
         {
             return item.activeSelf;
+        }
+
+        protected override GameObject InstantiatePoolObject()
+        {
+            return GameObject.Instantiate(objectToPool, parentObject.position, Quaternion.identity, parentObject);
         }
     }
 }
