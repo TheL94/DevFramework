@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace UnityFramework.Pool
 {
+    [CreateAssetMenu(fileName = "PoolData",menuName = "Pool")]
     public class PoolData : ScriptableObject
     {
         public string ID;

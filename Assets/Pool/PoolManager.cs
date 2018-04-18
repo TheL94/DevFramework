@@ -35,7 +35,7 @@ namespace UnityFramework.Pool
 
         void CreateNewPool(PoolData _data)
         {
-            PoolStruct tempStruct = new PoolStruct { Data = GameObject.Instantiate(_data), ObjectPool = new GameObjectPool(_data.Graphic, Instantiate(new GameObject(_data.ID)).transform, _data.Quantity) };
+            PoolStruct tempStruct = new PoolStruct { Data = GameObject.Instantiate(_data), ObjectPool = new GameObjectPool(_data.Graphic, Instantiate(new GameObject(_data.ID + "Pool"), transform).transform, _data.Quantity) };
             pools.Add(tempStruct);
         }
     }
