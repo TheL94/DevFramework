@@ -33,6 +33,19 @@ namespace UnityFramework.Pool
 
         }
 
+
+        public void ResetObject(string _id)
+        {
+            foreach (PoolStruct pool in pools)
+            {
+                if (_id == pool.Data.ID)
+                {
+                    pool.ObjectPool.UpdatePools();
+                    break;
+                }
+            }
+        }
+
         void CreateNewPool(PoolData _data)
         {
             PoolStruct tempStruct = new PoolStruct { Data = GameObject.Instantiate(_data), ObjectPool = new GameObjectPool(_data.Graphic, Instantiate(new GameObject(_data.ID + "Pool"), transform).transform, _data.Quantity) };

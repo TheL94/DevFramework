@@ -26,7 +26,7 @@ namespace UnityFramework.Pool
 
         protected override bool IsObjectActive(GameObject item)
         {
-            return item.activeSelf;
+            return item.activeInHierarchy;
         }
 
         protected override GameObject InstantiatePoolObject()
