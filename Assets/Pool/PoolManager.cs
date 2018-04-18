@@ -4,11 +4,18 @@ using UnityEngine;
 
 namespace UnityFramework.Pool
 {
+    /// <summary>
+    /// Classe che si occupa della gestione dei Pool.
+    /// </summary>
     public class PoolManager : MonoBehaviour
     {
         public List<PoolData> Datas = new List<PoolData>();
         List<PoolStruct> pools = new List<PoolStruct>();
 
+        #region
+        /// <summary>
+        /// Funzione che inizializza il PoolManager. 
+        /// </summary>
         public void Init()
         {
             if(Datas.Count > 0)
@@ -20,6 +27,11 @@ namespace UnityFramework.Pool
             }
         }
 
+        /// <summary>
+        /// Funzione che dato un id ritorna un uno degli oggetti del Pool associato a quell'id.
+        /// </summary>
+        /// <param name="_id">L'id dell'oggetto che si vuole richiedere</param>
+        /// <returns>Ritorna il GameObject associato all'_id</returns>
         public GameObject GetObject(string _id)
         {
             foreach (PoolStruct pool in pools)
@@ -32,17 +44,32 @@ namespace UnityFramework.Pool
             return null;
 
         }
+        #endregion
 
+        /// <summary>
+        /// Funzione che crea le istanze che vengono salvate in una nuova PoolStuct
+        /// </summary>
+        /// <param name="_data"></param>
         void CreateNewPool(PoolData _data)
         {
-            PoolStruct tempStruct = new PoolStruct { Data = GameObject.Instantiate(_data), ObjectPool = new GameObjectPool(_data.Graphic, Instantiate(new GameObject(_data.ID + "Pool"), transform).transform, _data.Quantity) };
+            PoolData Data = GameObject.Instantiate(_data);
+            PoolStruct tempStruct = new PoolStruct(Data, new GameObjectPool(Data.Graphic, Instantiate(new GameObject(Data.ID + "Pool"), transform).transform, Data.Quantity));
             pools.Add(tempStruct);
         }
-    }
 
-    public struct PoolStruct
-    {
-        public PoolData Data;
-        public GameObjectPool ObjectPool;
+        /// <summary>
+        /// Struttura che viene utilizzata per associare il Pool al PoolData associato. (Solo per uso interno)
+        /// </summary>
+        struct PoolStruct
+        {
+            public PoolData Data;
+            public GameObjectPool ObjectPool;
+
+            public PoolStruct(PoolData _data, GameObjectPool _objectPool)
+            {
+                Data = _data;
+                ObjectPool = _objectPool;
+            }
+        }
     }
 }
