@@ -42,6 +42,7 @@ namespace UnityFramework.Pool
                 PoolType item = activePool[i];
                 if (!IsObjectActive(item))
                 {
+                    ChangeObjectState(item, false);
                     activePool.Remove(item);
                     inactivePool.Add(item);
                     ResetPoolObject(item);
@@ -58,10 +59,10 @@ namespace UnityFramework.Pool
             {
                 PoolType item = activePool[i];
                 ChangeObjectState(item, false);
-                activePool.Remove(item);
                 inactivePool.Add(item);
                 ResetPoolObject(item);
             }
+            activePool.Clear();
         }
         #endregion
 
