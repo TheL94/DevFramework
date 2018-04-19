@@ -13,7 +13,7 @@ namespace UnityFramework.Pool
 
         #region API
         /// <summary>
-        /// Ritorna il primo oggetto della lista degli inattivi, se non ne ha, ne crea uno
+        /// Ritorna il primo oggetto della lista degli inattivi, se non ne ha, ne crea uno.
         /// </summary>
         /// <returns></returns>
         public virtual PoolType Get()
@@ -33,7 +33,7 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
-        /// Controlla se c'è qualche oggetto inattivo nella lista di quelli attivi, e lo riassegna alla lista giusta
+        /// Controlla se c'è qualche oggetto inattivo nella lista di quelli attivi, e lo riassegna alla lista giusta.
         /// </summary>
         public virtual void UpdatePool()
         {
@@ -50,7 +50,7 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
-        /// Riassegna tutti gli elementi della lista degli attivi alla lista degli inattivi
+        /// Riassegna tutti gli elementi della lista degli attivi alla lista degli inattivi.
         /// </summary>
         public void ForcePoolReset()
         {
@@ -66,7 +66,7 @@ namespace UnityFramework.Pool
         #endregion
 
         /// <summary>
-        /// Inizializza il pool con il tipo passato come parametro e la quantità
+        /// Inizializza il pool con il tipo passato come parametro e la quantità.
         /// </summary>
         /// <param name="_objectToPool">Il tipo che deve instanziare</param>
         /// <param name="_initialQuantity">La quantità iniziale di oggetti</param>
@@ -83,7 +83,7 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
-        /// Restituisce il primo oggetto dalla lista di inattivi
+        /// Restituisce il primo oggetto dalla lista di inattivi.
         /// </summary>
         /// <returns></returns>
         protected PoolType GetInactiveObject()
@@ -96,7 +96,7 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
-        /// Resetta i valori di default dell'oggetto che viene ripreso dal Pool
+        /// Resetta i valori di default dell'oggetto che viene ripreso dal Pool.
         /// </summary>
         /// <param name="_item">Oggetto da resettare</param>
         protected virtual void ResetPoolObject(PoolType _item) { }
@@ -112,7 +112,7 @@ namespace UnityFramework.Pool
         /// <returns></returns>
         protected abstract PoolType InstantiatePoolObject();
         /// <summary>
-        /// Cambia lo stato dell'oggetto passato come parametro
+        /// Cambia lo stato dell'oggetto passato come parametro.
         /// </summary>
         /// <param name="item">L'oggetto a cui viene cambiato stato</param>
         /// <param name="toState">Lo stato che viene settato all'oggetto</param>

@@ -62,7 +62,7 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
-        /// Funzione che forza il reset di tutti i Pool
+        /// Funzione che forza il reset di tutti i Pool.
         /// </summary>
         public void ForcePoolReset()
         {
@@ -74,7 +74,7 @@ namespace UnityFramework.Pool
         #endregion
 
         /// <summary>
-        /// Funzione che crea le istanze che vengono salvate in una nuova PoolStuct
+        /// Funzione che crea le istanze che vengono salvate in una nuova PoolStuct.
         /// </summary>
         /// <param name="_data"></param>
         void CreateNewPool(PoolData _data)
