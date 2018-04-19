@@ -12,7 +12,7 @@ namespace UnityFramework.Pool
         public List<PoolData> Datas = new List<PoolData>();
         List<PoolStruct> pools = new List<PoolStruct>();
 
-        #region
+        #region API
         /// <summary>
         /// Funzione che inizializza il PoolManager. 
         /// </summary>
@@ -43,6 +43,33 @@ namespace UnityFramework.Pool
             }
             return null;
 
+        }
+
+        /// <summary>
+        /// Funzione che chiama l'update del Pool associato all'id.
+        /// </summary>
+        /// <param name="_id"></param>
+        public void ResetObject(string _id)
+        {
+            foreach (PoolStruct pool in pools)
+            {
+                if (_id == pool.Data.ID)
+                {
+                    pool.ObjectPool.UpdatePool();
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Funzione che forza il reset di tutti i Pool
+        /// </summary>
+        public void ForcePoolReset()
+        {
+            foreach (PoolStruct pool in pools)
+            {
+                pool.ObjectPool.ForcePoolReset();
+            }
         }
         #endregion
 

@@ -18,7 +18,7 @@ namespace UnityFramework.Pool
         /// <returns></returns>
         public virtual PoolType Get()
         {
-            UpdatePools();
+            UpdatePool();
 
             if (inactivePool.Count > 0)
             {
@@ -35,7 +35,7 @@ namespace UnityFramework.Pool
         /// <summary>
         /// Controlla se c'è qualche oggetto inattivo nella lista di quelli attivi, e lo riassegna alla lista giusta
         /// </summary>
-        public virtual void UpdatePools()
+        public virtual void UpdatePool()
         {
             for (int i = 0; i < activePool.Count; i++)
             {
@@ -52,7 +52,7 @@ namespace UnityFramework.Pool
         /// <summary>
         /// Riassegna tutti gli elementi della lista degli attivi alla lista degli inattivi
         /// </summary>
-        public void ForcePoolsReset()
+        public void ForcePoolReset()
         {
             for (int i = 0; i < activePool.Count; i++)
             {
