@@ -49,7 +49,7 @@ namespace UnityFramework.Pool
         /// Funzione che chiama l'update del Pool associato all'id.
         /// </summary>
         /// <param name="_id"></param>
-        public void ResetObject(string _id)
+        public void UpdatePool(string _id)
         {
             foreach (PoolStruct pool in pools)
             {
