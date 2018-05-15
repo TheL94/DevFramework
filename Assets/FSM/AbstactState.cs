@@ -17,7 +17,7 @@ namespace UnityFramework.FSM
         public void Initialize(FiniteStateMachine _FSM)
         {
             FSM = _FSM;
-            possibleTransitions = SetTransition();
+            possibleTransitions = SetTransitions();
             OnStart();
             IsToSetup = false;
         }
@@ -48,6 +48,6 @@ namespace UnityFramework.FSM
             return null; 
         }
 
-        protected abstract List<Transition> SetTransition();
+        protected abstract List<Transition> SetTransitions();
     }
 }
