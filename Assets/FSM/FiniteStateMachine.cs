@@ -21,9 +21,9 @@ namespace UnityFramework.FSM
                 Debug.LogError("FSM - No Initial State Available");
         }
 
-        public void GoNext(int _transitionID)
+        public void DoTransition(int _transitionID)
         {
-            Transition transition = CurrentState.GoNext(_transitionID);
+            Transition transition = CurrentState.GetTransition(_transitionID);
             SetState(transition);
         }
         #endregion
@@ -39,19 +39,20 @@ namespace UnityFramework.FSM
             switch (_transition.Type)
             {
                 case Transition.TranstionType.PopItself_PushNew:
-                    stateStack.Pop().OnEnd();
+                    stateStack.Pop().Terminate();
                     stateStack.Push(_transition.NextState);            
                     break;
                 case Transition.TranstionType.PopItself:
-                    stateStack.Pop().OnEnd();
+                    stateStack.Pop().Terminate();
                     break;
                 case Transition.TranstionType.PushNew:
-                    CurrentState.OnEnd();
+                    CurrentState.Terminate();
                     stateStack.Push(_transition.NextState);
                     break;
             }
 
-            CurrentState.Initialize(this);
+            if (CurrentState.IsToSetup)
+                CurrentState.Initialize(this);
         }
 
         private void Update()

@@ -4,15 +4,16 @@ namespace UnityFramework.FSM
 {
     public abstract class AbstactState
     {
-        FiniteStateMachine FSM;
-        List<Transition> possibleTransitions;
-
         private bool _isToSetup = true;
         public bool IsToSetup
         {
             get { return _isToSetup; }
             private set { _isToSetup = value; }
         }
+
+        protected FiniteStateMachine FSM;
+
+        List<Transition> possibleTransitions;
 
         #region API 
         public void Initialize(FiniteStateMachine _FSM)
@@ -23,11 +24,25 @@ namespace UnityFramework.FSM
             IsToSetup = false;
         }
 
-        public Transition GoNext(int _transitionID)
+        public void Terminate()
         {
-            return GetTransition(_transitionID));
+            OnEnd();
+            IsToSetup = true;
         }
 
+        public Transition GetTransition(int _transitionID)
+        {
+            if (possibleTransitions == null)
+                return null;
+
+            for (int i = 0; i < possibleTransitions.Count; i++)
+            {
+                if (possibleTransitions[i].ID == _transitionID)
+                    return possibleTransitions[i];
+            }
+
+            return null;
+        }
         #region Hooks
         public virtual void OnStart() { }
         public virtual void OnUpdate() { }
@@ -37,19 +52,5 @@ namespace UnityFramework.FSM
         #endregion
 
         protected abstract List<Transition> SetTransitions();
-
-        Transition GetTransition(int _transitionID)
-        {
-            if(possibleTransitions == null)
-                return null;
-
-            for (int i = 0; i < possibleTransitions.Count; i++)
-            {
-                if (possibleTransitions[i].ID == _transitionID)
-                    return possibleTransitions[i];
-            }
-
-            return null; 
-        }
     }
 }
