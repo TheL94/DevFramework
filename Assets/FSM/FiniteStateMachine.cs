@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityFramework.FSM
@@ -24,10 +23,12 @@ namespace UnityFramework.FSM
 
         public void GoNext(int _transitionID)
         {
-            CurrentState.GoNext(_transitionID);
+            Transition transition = CurrentState.GoNext(_transitionID);
+            SetState(transition);
         }
+        #endregion
 
-        public void SetState(Transition _transition)
+        void SetState(Transition _transition)
         {
             if(_transition == null)
             {
@@ -52,7 +53,6 @@ namespace UnityFramework.FSM
 
             CurrentState.Initialize(this);
         }
-        #endregion
 
         private void Update()
         {

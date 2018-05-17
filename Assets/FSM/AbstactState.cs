@@ -23,9 +23,9 @@ namespace UnityFramework.FSM
             IsToSetup = false;
         }
 
-        public void GoNext(int _transitionID)
+        public Transition GoNext(int _transitionID)
         {
-            FSM.SetState(GetTransition(_transitionID));
+            return GetTransition(_transitionID));
         }
 
         #region Hooks
