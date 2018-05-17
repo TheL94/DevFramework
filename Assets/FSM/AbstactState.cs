@@ -14,6 +14,7 @@ namespace UnityFramework.FSM
             private set { _isToSetup = value; }
         }
 
+        #region API 
         public void Initialize(FiniteStateMachine _FSM)
         {
             FSM = _FSM;
@@ -22,17 +23,20 @@ namespace UnityFramework.FSM
             IsToSetup = false;
         }
 
-        #region API
-        public virtual void OnStart() { }
-        public virtual void OnUpdate() { }
-        public virtual void OnLateUpdate() { }
-        public virtual void OnEnd() { }
-
         public void GoNext(int _transitionID)
         {
             FSM.SetState(GetTransition(_transitionID));
         }
+
+        #region Hooks
+        public virtual void OnStart() { }
+        public virtual void OnUpdate() { }
+        public virtual void OnLateUpdate() { }
+        public virtual void OnEnd() { }
         #endregion
+        #endregion
+
+        protected abstract List<Transition> SetTransitions();
 
         Transition GetTransition(int _transitionID)
         {
@@ -47,7 +51,5 @@ namespace UnityFramework.FSM
 
             return null; 
         }
-
-        protected abstract List<Transition> SetTransitions();
     }
 }

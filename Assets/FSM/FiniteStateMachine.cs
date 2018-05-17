@@ -10,6 +10,7 @@ namespace UnityFramework.FSM
 
         Stack<AbstactState> stateStack = new Stack<AbstactState>();
 
+        #region API 
         public void Initialize(AbstactState _initialState)
         {
             if(_initialState != null)
@@ -21,7 +22,6 @@ namespace UnityFramework.FSM
                 Debug.LogError("FSM - No Initial State Available");
         }
 
-        #region API
         public void GoNext(int _transitionID)
         {
             CurrentState.GoNext(_transitionID);
