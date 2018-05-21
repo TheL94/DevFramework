@@ -15,6 +15,7 @@ namespace UnityFramework.Pool
         protected override void ResetPoolObject(GameObject _item)
         {
             _item.transform.position = parentObject.transform.position;
+            _item.transform.rotation = parentObject.transform.rotation;
             _item.transform.parent = parentObject.transform;
         }
 
@@ -28,9 +29,11 @@ namespace UnityFramework.Pool
             return item.activeInHierarchy;
         }
 
-        protected override GameObject InstantiatePoolObject()
+        protected override GameObject InstantiatePoolObject(bool _debug = false)
         {
-            Debug.Log("A new " + objectToPool.name + " has been instantiated. Add more initial quantity to this pool.");
+            if(_debug)
+                Debug.Log("A new " + objectToPool.name + " has been instantiated. Add more initial quantity to this pool.");
+
             return GameObject.Instantiate(objectToPool, parentObject.position, Quaternion.identity, parentObject);
         }
     }
