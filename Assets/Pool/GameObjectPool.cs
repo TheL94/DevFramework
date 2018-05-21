@@ -30,7 +30,7 @@ namespace UnityFramework.Pool
 
         protected override GameObject InstantiatePoolObject()
         {
-            Debug.Log("A new " + objectToPool.name + "has been instantiated. Add more initial quantity to this pool.");
+            Debug.Log("A new " + objectToPool.name + " has been instantiated. Add more initial quantity to this pool.");
             return GameObject.Instantiate(objectToPool, parentObject.position, Quaternion.identity, parentObject);
         }
     }
