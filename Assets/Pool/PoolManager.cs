@@ -79,8 +79,12 @@ namespace UnityFramework.Pool
         void CreateNewPool(PoolData _data)
         {
             PoolData Data = Instantiate(_data);
+
             GameObject container = new GameObject(Data.ID + "Pool");
+            container.transform.position = transform.position;
+            container.transform.rotation = transform.rotation;
             container.transform.parent = transform;
+
             GameObjectPool newGameObjectPool = new GameObjectPool(Data.Graphic, container.transform, Data.Quantity);
             PoolStruct tempStruct = new PoolStruct(Data, newGameObjectPool);
             pools.Add(tempStruct);
