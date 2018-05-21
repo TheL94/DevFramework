@@ -42,7 +42,6 @@ namespace UnityFramework.Pool
                 }
             }
             return null;
-
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace UnityFramework.Pool
         /// <param name="_data"></param>
         void CreateNewPool(PoolData _data)
         {
-            PoolData Data = GameObject.Instantiate(_data);
+            PoolData Data = Instantiate(_data);
             PoolStruct tempStruct = new PoolStruct(Data, new GameObjectPool(Data.Graphic, Instantiate(new GameObject(Data.ID + "Pool"), transform).transform, Data.Quantity));
             pools.Add(tempStruct);
         }
