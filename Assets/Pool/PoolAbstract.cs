@@ -35,16 +35,29 @@ namespace UnityFramework.Pool
         /// </summary>
         public virtual void UpdatePool()
         {
+            List<PoolType> objectToDisable = new List<PoolType>();
             for (int i = 0; i < activePool.Count; i++)
             {
                 PoolType item = activePool[i];
                 if (!IsObjectActive(item))
                 {
-                    ChangeObjectState(item, false);
-                    activePool.Remove(item);
-                    inactivePool.Add(item);
-                    ResetPoolObject(item);
+                    objectToDisable.Add(item);
                 }
+            }
+
+            for (int i = 0; i < objectToDisable.Count; i++)
+            {
+                ReturnObject(objectToDisable[i]);
+            }
+        }
+
+        public virtual void ReturnObject(PoolType _poolToReturn)
+        {
+            ChangeObjectState(_poolToReturn, false);
+            if (activePool.Remove(_poolToReturn))
+            {
+                inactivePool.Add(_poolToReturn);
+                ResetPoolObject(_poolToReturn);
             }
         }
 
@@ -57,10 +70,10 @@ namespace UnityFramework.Pool
             {
                 PoolType item = activePool[i];
                 ChangeObjectState(item, false);
-                activePool.Remove(item);
                 inactivePool.Add(item);
                 ResetPoolObject(item);
             }
+            activePool.Clear();
         }
         #endregion
 
