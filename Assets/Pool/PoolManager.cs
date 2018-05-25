@@ -45,6 +45,23 @@ namespace UnityFramework.Pool
         }
 
         /// <summary>
+        /// Funzione che dato un id e un uno degli oggetti del Pool, rimette l'oggetto passato tra quelli del Pool associato a quell'id.
+        /// </summary>
+        /// <param name="_id">L'id dell'oggetto che si vuole richiedere</param>
+        /// <returns>Ritorna il GameObject associato all'_id</returns>
+        public void ReturnObject(string _id, GameObject _gameObjectToReturn)
+        {
+            foreach (PoolStruct pool in pools)
+            {
+                if (_id == pool.Data.ID)
+                {
+                    pool.ObjectPool.ReturnObject(_gameObjectToReturn);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Funzione che chiama l'update del Pool associato all'id.
         /// </summary>
         /// <param name="_id"></param>
