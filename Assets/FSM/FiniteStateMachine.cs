@@ -11,6 +11,11 @@ namespace UnityFramework.FSM
         #endregion
 
         /// <summary>
+        /// Ritorna il Nome della Macchina a Stati.
+        /// </summary>
+        public string Name { get { return GetType().Name; } }
+
+        /// <summary>
         /// Ritorna il Nome dello Stato Corrente.
         /// </summary>
         public string CurrentStateName
@@ -69,7 +74,7 @@ namespace UnityFramework.FSM
         {
             if (_transition == null)
             {
-                Debug.LogError("FSM - " + CurrentState.Name + " - No available Trasition with ID :" + _transition.ID);
+                Debug.LogError("FSM " + Name + " - " + CurrentState.Name + " - No available Trasition with ID :" + _transition.ID);
                 return;
             }
 
@@ -80,7 +85,7 @@ namespace UnityFramework.FSM
                     if (_transition.NextState != null)
                         stateStack.Push(_transition.NextState);
                     else
-                        Debug.LogError("FSM - " + CurrentState.Name + " - No available Next State for Trasition with ID :" + _transition.ID);
+                        Debug.LogError("FSM " + Name + " - " + CurrentState.Name + " - No available Next State for Trasition with ID :" + _transition.ID);
                     break;
 
                 case Transition.TranstionType.PopItself:
@@ -92,13 +97,13 @@ namespace UnityFramework.FSM
                     if (_transition.NextState != null)
                         stateStack.Push(_transition.NextState);
                     else
-                        Debug.LogError("FSM - " + CurrentState.Name + " - No available Next State for Trasition with ID :" + _transition.ID);
+                        Debug.LogError("FSM " + Name + " - " + CurrentState.Name + " - No available Next State for Trasition with ID :" + _transition.ID);
                     break;
             }
 
             if (CurrentState == null && OnFSMConclusion != null)
             {
-                OnFSMConclusion(GetType().Name);
+                OnFSMConclusion(Name);
                 return;
             }
 
