@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UnityFramework.Pool
 {
@@ -26,7 +24,7 @@ namespace UnityFramework.Pool
             }
             else
             {
-                PoolType item = InstantiatePoolObject();
+                PoolType item = InstantiatePoolObject(true);
                 activePool.Add(item);
                 return item;
             }
@@ -37,16 +35,33 @@ namespace UnityFramework.Pool
         /// </summary>
         public virtual void UpdatePool()
         {
+            List<PoolType> objectToDisable = new List<PoolType>();
             for (int i = 0; i < activePool.Count; i++)
             {
                 PoolType item = activePool[i];
                 if (!IsObjectActive(item))
                 {
-                    ChangeObjectState(item, false);
-                    activePool.Remove(item);
-                    inactivePool.Add(item);
-                    ResetPoolObject(item);
+                    objectToDisable.Add(item);
                 }
+            }
+
+            for (int i = 0; i < objectToDisable.Count; i++)
+            {
+                ReturnObject(objectToDisable[i]);
+            }
+        }
+
+        /// <summary>
+        /// Riassegna l'elemento passato come parametro dalla lista degli attivi alla lista degli inattivi.
+        /// </summary>
+        /// <param name="_poolToReturn"></param>
+        public virtual void ReturnObject(PoolType _poolToReturn)
+        {
+            ChangeObjectState(_poolToReturn, false);
+            if (activePool.Remove(_poolToReturn))
+            {
+                inactivePool.Add(_poolToReturn);
+                ResetPoolObject(_poolToReturn);
             }
         }
 
@@ -101,6 +116,7 @@ namespace UnityFramework.Pool
         /// </summary>
         /// <param name="_item">Oggetto da resettare</param>
         protected virtual void ResetPoolObject(PoolType _item) { }
+
         /// <summary>
         /// Ritorna l'oggetto base del Pool
         /// </summary>
@@ -111,13 +127,15 @@ namespace UnityFramework.Pool
         /// Instanzia l'oggetto
         /// </summary>
         /// <returns></returns>
-        protected abstract PoolType InstantiatePoolObject();
+        protected abstract PoolType InstantiatePoolObject(bool _debug = false);
+
         /// <summary>
         /// Cambia lo stato dell'oggetto passato come parametro.
         /// </summary>
         /// <param name="item">L'oggetto a cui viene cambiato stato</param>
         /// <param name="toState">Lo stato che viene settato all'oggetto</param>
         protected abstract void ChangeObjectState(PoolType item, bool toState);
+
         /// <summary>
         /// Ritorna lo stato dell'oggetto
         /// </summary>

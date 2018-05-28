@@ -42,7 +42,23 @@ namespace UnityFramework.Pool
                 }
             }
             return null;
+        }
 
+        /// <summary>
+        /// Funzione che dato un id e un uno degli oggetti del Pool, rimette l'oggetto passato tra quelli del Pool associato a quell'id.
+        /// </summary>
+        /// <param name="_id">L'id dell'oggetto che si vuole richiedere</param>
+        /// <returns>Ritorna il GameObject associato all'_id</returns>
+        public void ReturnObject(string _id, GameObject _gameObjectToReturn)
+        {
+            foreach (PoolStruct pool in pools)
+            {
+                if (_id == pool.Data.ID)
+                {
+                    pool.ObjectPool.ReturnObject(_gameObjectToReturn);
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -79,8 +95,15 @@ namespace UnityFramework.Pool
         /// <param name="_data"></param>
         void CreateNewPool(PoolData _data)
         {
-            PoolData Data = GameObject.Instantiate(_data);
-            PoolStruct tempStruct = new PoolStruct(Data, new GameObjectPool(Data.Graphic, Instantiate(new GameObject(Data.ID + "Pool"), transform).transform, Data.Quantity));
+            PoolData Data = Instantiate(_data);
+
+            GameObject container = new GameObject(Data.ID + "Pool");
+            container.transform.position = transform.position;
+            container.transform.rotation = transform.rotation;
+            container.transform.parent = transform;
+
+            GameObjectPool newGameObjectPool = new GameObjectPool(Data.Graphic, container.transform, Data.Quantity);
+            PoolStruct tempStruct = new PoolStruct(Data, newGameObjectPool);
             pools.Add(tempStruct);
         }
 
