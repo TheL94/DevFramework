@@ -22,21 +22,27 @@ namespace UnityFramework.FSM
         /// <summary>
         /// Riferimento della macchina a stati a da cui è stato inizializzato.
         /// </summary>
-        protected FiniteStateMachine FSM;
+        FiniteStateMachine fsm;
 
         List<Transition> possibleTransitions;
+
+        #region Event
+        protected delegate void StateTransitionEvent(int _transitionID);
+        protected StateTransitionEvent triggerTransition;
+        #endregion
 
         #region API 
         /// <summary>
         /// Funzione che inizializza lo stato, chiama l'hook OnStart.
         /// </summary>
-        /// <param name="_FSM"></param>
-        public void Initialize(FiniteStateMachine _FSM)
+        /// <param name="_fsm"></param>
+        public void Initialize(FiniteStateMachine _fsm)
         {
-            FSM = _FSM;
+            fsm = _fsm;
             possibleTransitions = SetTransitions();
-            OnStart();
+            triggerTransition += fsm.DoTransition;
             IsToSetup = false;
+            Start();
         }
 
         /// <summary>
@@ -44,8 +50,9 @@ namespace UnityFramework.FSM
         /// </summary>
         public void Terminate()
         {
-            OnEnd();
+            End();
             IsToSetup = true;
+            triggerTransition -= fsm.DoTransition;
         }
 
         /// <summary>
@@ -68,11 +75,11 @@ namespace UnityFramework.FSM
         }
 
         #region Hooks
-        public virtual void OnStart() { }
-        public virtual void OnUpdate() { }
-        public virtual void OnFixedUpdate() { }
-        public virtual void OnLateUpdate() { }
-        public virtual void OnEnd() { }
+        protected virtual void Start() { }
+        public virtual void Update() { }
+        public virtual void FixedUpdate() { }
+        public virtual void LateUpdate() { }
+        protected virtual void End() { }
         #endregion
         #endregion
 

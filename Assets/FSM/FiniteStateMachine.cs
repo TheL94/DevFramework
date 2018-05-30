@@ -6,14 +6,15 @@ namespace UnityFramework.FSM
     public class FiniteStateMachine : MonoBehaviour
     {
         #region Events
-        public delegate void FSMEvent(string _FSMName);
-        public static FSMEvent OnFSMConclusion;
+        public delegate void FSMEvent(FiniteStateMachine _FSM);
+        public FSMEvent OnConclusion;
         #endregion
 
         /// <summary>
         /// Ritorna il Nome della Macchina a Stati.
         /// </summary>
         public string Name { get { return GetType().Name; } }
+        public bool IsActive { get; private set; }
 
         /// <summary>
         /// Ritorna il Nome dello Stato Corrente.
@@ -42,15 +43,19 @@ namespace UnityFramework.FSM
 
         Stack<AbstactState> stateStack = new Stack<AbstactState>();
 
+        bool throwEventOnConclusion;
+
         #region API 
         /// <summary>
         /// Funzione che inizializza la Macchina a Stati.
         /// </summary>
         /// <param name="_initialState"></param>
-        public void Initialize(AbstactState _initialState)
+        public void Initialize(AbstactState _initialState, bool _throwEventOnConclusion)
         {
             if (_initialState != null)
             {
+                throwEventOnConclusion = _throwEventOnConclusion;
+                IsActive = true;
                 stateStack.Push(_initialState);
                 CurrentState.Initialize(this);
             }
@@ -65,11 +70,20 @@ namespace UnityFramework.FSM
         /// <param name="_transitionID"></param>
         public void DoTransition(int _transitionID)
         {
-            Transition transition = CurrentState.GetTransition(_transitionID);
-            SetState(transition);
+            if (CurrentState != null)
+            {
+                Transition transition = CurrentState.GetTransition(_transitionID);
+                SetState(transition);
+            }
+            else
+                ThrowEndEvent();
         }
         #endregion
 
+        /// <summary>
+        /// Funzione che setta lo stato corrente
+        /// </summary>
+        /// <param name="_transition"></param>
         void SetState(Transition _transition)
         {
             if (_transition == null)
@@ -101,9 +115,9 @@ namespace UnityFramework.FSM
                     break;
             }
 
-            if (CurrentState == null && OnFSMConclusion != null)
+            if (CurrentState == null)
             {
-                OnFSMConclusion(Name);
+                ThrowEndEvent();
                 return;
             }
 
@@ -111,22 +125,44 @@ namespace UnityFramework.FSM
                 CurrentState.Initialize(this);
         }
 
+        /// <summary>
+        /// Funzione che lancia l'evento di conclusione della macchina a stati
+        /// </summary>
+        void ThrowEndEvent()
+        {
+            if (throwEventOnConclusion && IsActive)
+            {
+                IsActive = false;
+                if (OnConclusion != null)
+                    OnConclusion(this);
+            }
+        }
+
         private void Update()
         {
-            if (CurrentState != null && !CurrentState.IsToSetup)
-                CurrentState.OnUpdate();
+            if (!IsActive)
+                return;
+
+            if (!CurrentState.IsToSetup)
+                CurrentState.Update();
         }
 
         private void FixedUpdate()
         {
-            if (CurrentState != null && !CurrentState.IsToSetup)
-                CurrentState.OnFixedUpdate();
+            if (!IsActive)
+                return;
+
+            if (!CurrentState.IsToSetup)
+                CurrentState.FixedUpdate();
         }
 
         private void LateUpdate()
         {
-            if (CurrentState != null && !CurrentState.IsToSetup)
-                CurrentState.OnLateUpdate();
+            if (!IsActive)
+                return;
+
+            if (!CurrentState.IsToSetup)
+                CurrentState.LateUpdate();
         }
     }
 }
