@@ -4,6 +4,8 @@ namespace UnityFramework.Pool
 {
     public abstract class Pool<PoolType>
     {
+        public bool IsFreeToGo { get { return activePool.Count > 0 ? false : true; } }
+
         public List<PoolType> inactivePool = new List<PoolType>();
         public List<PoolType> activePool = new List<PoolType>();
 

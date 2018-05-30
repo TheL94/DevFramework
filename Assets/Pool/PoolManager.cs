@@ -9,6 +9,18 @@ namespace UnityFramework.Pool
     /// </summary>
     public class PoolManager : MonoBehaviour
     {
+        public bool IsFreeToGo
+        {
+            get
+            {
+                for (int i = 0; i < pools.Count; i++)
+                    if (!pools[i].ObjectPool.IsFreeToGo)
+                        return false;
+
+                return true;
+            }
+        }
+
         public List<PoolData> Datas = new List<PoolData>();
         List<PoolStruct> pools = new List<PoolStruct>();
 
@@ -18,7 +30,7 @@ namespace UnityFramework.Pool
         /// </summary>
         public void Init()
         {
-            if(Datas.Count > 0)
+            if (Datas.Count > 0)
             {
                 foreach (PoolData data in Datas)
                 {
@@ -36,7 +48,7 @@ namespace UnityFramework.Pool
         {
             foreach (PoolStruct pool in pools)
             {
-                if(_id == pool.Data.ID)
+                if (_id == pool.Data.ID)
                 {
                     return pool.ObjectPool.Get();
                 }
