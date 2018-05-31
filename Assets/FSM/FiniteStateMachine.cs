@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityFramework.FSM
@@ -68,7 +69,7 @@ namespace UnityFramework.FSM
         /// Altimenti, se lo Stato Corrente, dopo la transione risulta essere nullo, la  Macchina a Stati termina e lancia l'evento OnFSMConclusion.
         /// </summary>
         /// <param name="_transitionID"></param>
-        public void DoTransition(int _transitionID)
+        public void DoTransition(Type _transitionID)
         {
             if (CurrentState != null)
             {

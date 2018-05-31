@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UnityFramework.FSM
 {
@@ -27,7 +28,7 @@ namespace UnityFramework.FSM
         List<Transition> possibleTransitions;
 
         #region Event
-        protected delegate void StateTransitionEvent(int _transitionID);
+        protected delegate void StateTransitionEvent(Type _transitionID);
         protected StateTransitionEvent triggerTransition;
         #endregion
 
@@ -60,7 +61,7 @@ namespace UnityFramework.FSM
         /// </summary>
         /// <param name="_transitionID">ID della transizione</param>
         /// <returns>Transizione corrispondente all'ID passato</returns>
-        public Transition GetTransition(int _transitionID)
+        public Transition GetTransition(Type _transitionID)
         {
             if (possibleTransitions == null)
                 return null;
