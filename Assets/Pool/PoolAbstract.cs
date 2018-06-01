@@ -57,9 +57,10 @@ namespace UnityFramework.Pool
         /// Riassegna l'elemento passato come parametro dalla lista degli attivi alla lista degli inattivi.
         /// </summary>
         /// <param name="_poolToReturn"></param>
-        public virtual void ReturnObject(PoolType _poolToReturn)
+        public virtual void ReturnObject(PoolType _poolToReturn, bool _disableObj = true)
         {
-            ChangeObjectState(_poolToReturn, false);
+            if(_disableObj)
+                ChangeObjectState(_poolToReturn, false);
             if (activePool.Remove(_poolToReturn))
             {
                 inactivePool.Add(_poolToReturn);

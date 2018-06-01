@@ -61,13 +61,13 @@ namespace UnityFramework.Pool
         /// </summary>
         /// <param name="_id">L'id dell'oggetto che si vuole richiedere</param>
         /// <returns>Ritorna il GameObject associato all'_id</returns>
-        public void ReturnObject(string _id, GameObject _gameObjectToReturn)
+        public void ReturnObject(string _id, GameObject _gameObjectToReturn, bool _disableObj = true)
         {
             foreach (PoolStruct pool in pools)
             {
                 if (_id == pool.Data.ID)
                 {
-                    pool.ObjectPool.ReturnObject(_gameObjectToReturn);
+                    pool.ObjectPool.ReturnObject(_gameObjectToReturn, _disableObj);
                     break;
                 }
             }
